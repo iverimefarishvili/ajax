@@ -1,12 +1,12 @@
 function ajax(url){
   httprequest =  new XMLHttpRequest();
-  httprequest.onreadystatechange = alertContents;
+  httprequest.onreadystatechange = console;
 
   httprequest.open('get', url);
   httprequest.send();
 
 }
-function alertContents() {
+function console() {
     if (httprequest.readyState === XMLHttpRequest.DONE) {
       if (httprequest.status) {
         data = JSON.parse(httprequest.responseText)
