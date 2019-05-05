@@ -1,28 +1,19 @@
-var http = require('http');
+function ajax(url){
+  httprequest =  new XMLHttpRequest();
+  httprequest.onreadystatechange = alertContents;
 
-var server = http.createServer(function(req, res){
-    res.writeHead(200, {'Content-type': 'text/plain'});
-    res.end('heyyy')
-});
+  httprequest.open('get', url);
+  httprequest.send();
 
-server.listen(3000, '127.0.0.1');
-console.log('Server');
-
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-function ajax(url, callback, errorr){
-    return new Promise(function(resolve, reject){
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onload = function(response){
-            resolve(xhr.response);
-        }
-        xhr.onerror = function(err){
-            reject('response error');
-        }
-        
-        xhr.send();
-    })
 }
-ajax('http://dummy.restapiexample.com/api/v1/employee').then(function(data){
-    console.log(data);
-})
+function alertContents() {
+    if (httprequest.readyState === XMLHttpRequest.DONE) {
+      if (httprequest.status) {
+        data = JSON.parse(httprequest.responseText)
+        console.log('status:' + data.status + 'content:' + data.message );
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+  }
+ajax('https://newsapi.org/v2/everything?q=bitcoin&from=2019-04-03&sortBy=publishedAt&apiKey=8f4ff16d621c4d5190f88c3bb01b12a5')
